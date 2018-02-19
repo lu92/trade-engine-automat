@@ -14,6 +14,8 @@ public class AsyncTradeListener {
                 credentials.getApiKey(),
                 credentials.getSecret()
         ).newWebSocketClient();
+        this.symbol = symbol;
+        this.handler = handler;
     }
 
     public void start() {
