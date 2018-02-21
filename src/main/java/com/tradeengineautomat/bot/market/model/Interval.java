@@ -1,21 +1,21 @@
 package com.tradeengineautomat.bot.market.model;
 
 public enum Interval {
-    ONE_MIN("1m"),
-    THREE_MIN("3m"),
-    FIVE_MIN("5m"),
-    FIFTEEN_MIN("15m"),
-    THIRTY_MIN("30m"),
-    ONE_HOUR("1h"),
-    TWO_HOURS("2h"),
-    FOUR_HOURS("4h"),
-    SIX_HOURS("6h"),
-    EIGHT_HOURS("8h"),
-    TWELVE_HOURS("12h"),
-    ONE_DAY("1d"),
-    THREE_DAYS("3d"),
-    ONE_WEEK("1w"),
-    ONE_MONTH("1M");
+    ONE_MINUTE("1m"),
+    THREE_MINUTES("3m"),
+    FIVE_MINUTES("5m"),
+    FIFTEEN_MINUTES("15m"),
+    HALF_HOURLY("30m"),
+    HOURLY("1h"),
+    TWO_HOURLY("2h"),
+    FOUR_HOURLY("4h"),
+    SIX_HOURLY("6h"),
+    EIGHT_HOURLY("8h"),
+    TWELVE_HOURLY("12h"),
+    DAILY("1d"),
+    THREE_DAILY("3d"),
+    WEEKLY("1w"),
+    MONTHLY("1M");
 
     private String value;
 

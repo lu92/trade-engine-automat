@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class Candlestick {
     private String symbol;
+    private long eventTime;
     private Long openTime;
     private BigDecimal open;
     private BigDecimal high;

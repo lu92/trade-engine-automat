@@ -21,11 +21,12 @@ public class BasicCurrencyCandlestickListener implements CurrencyCandlestickList
         this.trendIndicator = trendIndicator;
         CurrencyCandlestickListener currencyCandlestickListener = this;
 
-        client.onCandlestickEvent(symbol, CandlestickInterval.valueOf(interval.getValue()), new BinanceApiCallback<CandlestickEvent>() {
+        client.onCandlestickEvent(symbol, CandlestickInterval.valueOf(interval.name()), new BinanceApiCallback<CandlestickEvent>() {
             @Override
             public void onResponse(CandlestickEvent candlestickEvent) throws BinanceApiException {
                 Candlestick candlestick = new Candlestick(
                         symbol,
+                        candlestickEvent.getEventTime(),
                         candlestickEvent.getOpenTime(),
                         new BigDecimal(candlestickEvent.getOpen()),
                         new BigDecimal(candlestickEvent.getHigh()),
