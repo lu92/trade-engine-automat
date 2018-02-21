@@ -1,4 +1,4 @@
-package com.tradeengineautomat.bot.market.trading;
+package com.tradeengineautomat.bot.market.trading.strategies;
 
 import com.binance.api.client.domain.event.AggTradeEvent;
 import com.binance.api.client.exception.BinanceApiException;

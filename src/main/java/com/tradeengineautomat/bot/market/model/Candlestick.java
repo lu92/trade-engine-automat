@@ -2,21 +2,23 @@ package com.tradeengineautomat.bot.market.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 
-@Data
+@Getter
+@ToString
 @AllArgsConstructor
 public class Candlestick {
-    public Long openTime;
-    public BigDecimal open;
-    public BigDecimal high;
-    public BigDecimal low;
-    public BigDecimal close;
-    public BigDecimal volume;
-    public Long closeTime;
-    public BigDecimal quoteAssetVolume;
-    public Long numberOfTrades;
-    public BigDecimal takerBuyBaseAssetVolume;
-    public BigDecimal takerBuyQuoteAssetVolume;
+    private String symbol;
+    private Long openTime;
+    private BigDecimal open;
+    private BigDecimal high;
+    private BigDecimal low;
+    private BigDecimal close;
+    private BigDecimal volume;
+    private Long closeTime;
+    private BigDecimal quoteAssetVolume;
+    private Long numberOfTrades;
 }
