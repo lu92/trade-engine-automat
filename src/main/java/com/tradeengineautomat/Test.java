@@ -13,10 +13,10 @@ public class Test {
 
 
         BinanceApiWebSocketClient client = BinanceApiClientFactory.newInstance().newWebSocketClient();
-        TrendListener trendListener = new TrendListener();
+        TrendListener trendListener = new TrendListener(null);
 
 
-        RsiTrendIndicator rsiTrendIndicator = new RsiTrendIndicator(30, 30, 70);
+        RsiTrendIndicator rsiTrendIndicator = new RsiTrendIndicator(trendListener,30, 30, 70);
         CurrencyCandlestickListener btc_usdt_CandlestickListener = new BasicCurrencyCandlestickListener(client, Interval.ONE_MINUTE,"btcusdt", rsiTrendIndicator);
 
     }

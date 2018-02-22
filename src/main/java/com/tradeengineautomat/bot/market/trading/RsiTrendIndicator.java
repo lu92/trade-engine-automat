@@ -20,11 +20,12 @@ public class RsiTrendIndicator implements TrendIndicator {
     private int lowerBound;
     private int higherBound;
     private int index;
+    private TrendListener trendListener;
 
     private Predicate<Integer> invalidRange = (number) -> number > 0 && 100 < number;
 
 
-    public RsiTrendIndicator(int numberOfTimeFrames, int lowerBound, int higherBound) {
+    public RsiTrendIndicator(TrendListener trendListener, int numberOfTimeFrames, int lowerBound, int higherBound) {
         if (invalidRange.test(lowerBound) || invalidRange.test(higherBound)) {
             throw new IllegalArgumentException("Invalid Range of bounds");
         }
@@ -34,33 +35,46 @@ public class RsiTrendIndicator implements TrendIndicator {
         this.rsiIndicator = new RSIIndicator(new ClosePriceIndicator(timeSeries), numberOfTimeFrames);
         this.lowerBound = lowerBound;
         this.higherBound = higherBound;
+        this.trendListener = trendListener;
     }
 
     @Override
     public void tryDetermineTrend(Candlestick candlestick) {
-        BaseTick tick = new BaseTick(
-                ZonedDateTime.ofInstant(Instant.ofEpochMilli(candlestick.getEventTime() + 300), ZoneOffset.UTC),
-                candlestick.getOpen().doubleValue(),
-                candlestick.getHigh().doubleValue(),
-                candlestick.getLow().doubleValue(),
-                candlestick.getClose().doubleValue(),
-                candlestick.getVolume().doubleValue());
+        try {
+            Instant instant = Instant.ofEpochMilli(candlestick.getEventTime());
+            BaseTick tick = new BaseTick(
+                    ZonedDateTime.ofInstant(instant, ZoneOffset.UTC),
+                    candlestick.getOpen().doubleValue(),
+                    candlestick.getHigh().doubleValue(),
+                    candlestick.getLow().doubleValue(),
+                    candlestick.getClose().doubleValue(),
+                    candlestick.getVolume().doubleValue());
 
-        System.out.println(index + "\t\t" + tick);
-        timeSeries.addTick(tick);
-        if (index >= numberOfTimeFrames) {
-            Decimal rsiValue = rsiIndicator.getValue(index);
-            determineTrend(rsiValue.toDouble());
+            timeSeries.addTick(tick);
+            System.out.println(index + "\t\t" + tick);
+            if (index >= numberOfTimeFrames) {
+                Decimal rsiValue = rsiIndicator.getValue(index);
+                determineTrend(candlestick.getSymbol(), rsiValue.toDouble());
+            }
+            index++;
+        } catch (IllegalArgumentException e) {
+            System.out.println("error detected!");
         }
-        index++;
     }
 
-    private void determineTrend(double rsiValue) {
+    private void determineTrend(String symbol, double rsiValue) {
         System.out.println("RSI: " + rsiValue);
+        if (rsiValue >= higherBound) {
+            emitTrendChanged(symbol, Trend.FAILING);
+        }
+
+        if (rsiValue <= lowerBound) {
+            emitTrendChanged(symbol, Trend.RISING);
+        }
     }
 
     @Override
     public void emitTrendChanged(String symbol, Trend trend) {
-
+        trendListener.onTrendChanged(symbol, trend);
     }
 }
