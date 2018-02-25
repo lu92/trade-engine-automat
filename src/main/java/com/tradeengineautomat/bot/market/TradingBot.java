@@ -44,12 +44,20 @@ public class TradingBot {
             throw new IllegalArgumentException("Cannot establish virtual Wallet. Probably insufficient funds!");
         }
 
-        return new VirtualWallet(walletConfig.getAmountOfAllowedCryptoCash().entrySet().stream().collect(Collectors.toConcurrentMap(
+        VirtualWallet virtualWallet = new VirtualWallet(walletConfig.getAmountOfAllowedCryptoCash().entrySet().stream().collect(Collectors.toConcurrentMap(
                 Map.Entry::getKey,
                 entry -> {
                     String currency = entry.getKey();
                     Double amount = entry.getValue();
                     return new CurrencyBalance(currency, BigDecimal.valueOf(amount), BigDecimal.ZERO); })
         ));
+
+        walletConfig.getPermittedCurrencies()
+                .forEach(currency -> {
+                    CurrencyBalance defaultBalance = new CurrencyBalance(currency, BigDecimal.ZERO, BigDecimal.ZERO);
+                    virtualWallet.getBalance().putIfAbsent(currency, defaultBalance);
+                });
+
+        return virtualWallet;
     }
 }
