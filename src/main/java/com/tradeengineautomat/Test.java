@@ -2,7 +2,6 @@ package com.tradeengineautomat;
 
 import com.binance.api.client.BinanceApiClientFactory;
 import com.binance.api.client.BinanceApiWebSocketClient;
-import com.tradeengineautomat.bot.market.Credentials;
 import com.tradeengineautomat.bot.market.model.Interval;
 import com.tradeengineautomat.bot.market.trading.*;
 
@@ -17,7 +16,8 @@ public class Test {
 
 
         RsiTrendIndicator rsiTrendIndicator = new RsiTrendIndicator(trendListener,30, 30, 70);
-        CurrencyCandlestickListener btc_usdt_CandlestickListener = new BasicCurrencyCandlestickListener(client, Interval.ONE_MINUTE,"btcusdt", rsiTrendIndicator);
+        MacdTrendIndicator macdTrendIndicator = new MacdTrendIndicator(trendListener);
+        CurrencyCandlestickListener btc_usdt_CandlestickListener = new BasicCurrencyCandlestickListener(client, Interval.ONE_MINUTE,"btcusdt", macdTrendIndicator);
 
     }
 }

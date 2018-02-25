@@ -1,10 +1,13 @@
 package com.tradeengineautomat.bot.market.trading;
 
 import com.tradeengineautomat.bot.market.model.CurrencyBalance;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
+@Getter
+@AllArgsConstructor
 public class VirtualWallet {
-    private Map<String, CurrencyBalance> balance = new ConcurrentHashMap<>();
+    private Map<String, CurrencyBalance> balance;
 }
